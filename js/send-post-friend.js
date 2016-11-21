@@ -23,9 +23,7 @@ jQuery(function () {
                 security: spf_ajax.check_nonce
             },
             success: function (response) {
-
-                console.log(response);
-
+                
                 if(response != null) {
                     var obj = JSON.parse(response);
                     var emailToSend = obj[0].email;
