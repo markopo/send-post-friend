@@ -1,11 +1,11 @@
 <?php
 /**
  * Plugin Name: Send post to a friend
- * Plugin URI: https://github.com/markopo
+ * Plugin URI: https://github.com/markopo/send-post-friend/
  * Description: This plugin allow you to send (email) it to a friend.
  * Version: 1.0.0
  * Author: Marko Poikkimäki
- * Author URI: https://github.com/markopo
+ * Author URI: https://github.com/markopo/send-post-friend/
  * License: GPL3
  */
 
@@ -139,8 +139,6 @@ class SendPostFriend {
         $spf_email = $_POST["email"];
         $spf_message = $_POST["message"];
 
-    //    echo var_dump(array($spf_post_id, $spf_email, $spf_message));
-
         if(!isset($spf_post_id) && is_numeric($spf_post_id)) {
             return;
         }
@@ -169,7 +167,8 @@ class SendPostFriend {
                       values({$spf_post_id},'{$spf_email}','{$spf_message}',now());";
             $wpdb->query($insertSql);
 
-            wp_mail($spf_email, 'post to friend', $spf_message);
+            $mailbody = "<a href='". get_post_permalink($spf_post_id) . "' >{$spf_message}</a>";
+            wp_mail($spf_email, 'post to friend', $mailbody);
         }
 
         $selectSql = "select id, email from {$tablename} 
